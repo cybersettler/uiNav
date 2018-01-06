@@ -1,0 +1,11 @@
+<template class="shadow">
+  <style><%- shadowStyle %></style>
+  <!-- shadow HTML -->
+  <content select="[data-role=content]"></content>
+</template>
+
+<script>
+    (function(window, document, undefined) {
+      require( "websemble" ).frontend.createComponent( 'ui-nav' );
+    })(window, document);
+</script>
