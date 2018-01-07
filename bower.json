@@ -1,0 +1,22 @@
+{
+  "name": "uiNav",
+  "homepage": "https://github.com/cybersettler/uiNav",
+  "authors": [
+    "Javier escobar <cybersettler@babylonone.com>"
+  ],
+  "description": "websemble navigation list component",
+  "main": "",
+  "keywords": [
+    "websemble",
+    "html5",
+    "webcomponents"
+  ],
+  "license": "Apache-2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

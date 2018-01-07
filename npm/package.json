@@ -1,0 +1,17 @@
+{
+  "name": "ui-nav",
+  "version": "0.1.0",
+  "description": "Navigation list web component.",
+  "main": "Controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "websemble",
+    "webcomponent",
+    "html5"
+  ],
+  "dependencies": {},
+  "author": "cybersettler@babylonone.com",
+  "license": "Apache-2.0"
+}

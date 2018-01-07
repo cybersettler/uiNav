@@ -4,7 +4,7 @@ const viewPattern = /^view\/(\w+)/;
 function NavWidget(view, scope) {
     this.view = view;
     this.scope = scope;
-    this.navList = view.shadowRoot.querySelector('ul');
+    this.renderTemplate = scope.templateEngine.compile(view.innerHTML);
 }
 
 NavWidget.prototype.render = function() {
@@ -41,44 +41,28 @@ NavWidget.prototype.fetchData = function() {
     });
 };
 
-
 function render(widget) {
-    if (widget.view.hasAttribute('data-role') &&
-        widget.view.dataset.role === 'template') {
-        generateDisplayFromTemplate(widget);
-    }
     if (widget.display) {
         renderNavFromDisplay(widget);
+    } else {
+        widget.view.innerHTML = widget.renderTemplate({model: widget.model});
     }
+
     initializeLinks(widget);
 }
 
-function generateDisplayFromTemplate(widget) {
-    if (!widget.navList) {
-        let list = document.createElement('ul');
-        list.classList.add('nav', 'navbar-nav');
-        widget.view.shadowRoot.appendChild(list);
-        widget.navList = list;
-    }
-
-    widget.display = getDisplayFromTemplate(widget);
-}
-
 function renderNavFromDisplay(widget) {
-    var data = getBodyData(widget);
+    var data = widget.display.items;
+    let ul = widget.view.querySelector('ul');
 
-    var ul = d3.select(body)
-        .selectAll("ul")
+    let li = d3.select(ul)
+        .selectAll("li")
         .data(data)
         .classed('active', function(d, i) {
             return widget.selectedIndex === i;
         });
 
-    let li = d3.select(widget.navList)
-        .selectAll('li')
-        .data(widget.display.items);
-
-    let enterLi = li.enter()
+    li.enter()
         .append('li')
         .classed('dropdown', function(d) {
             return d.type === 'dropdown';
@@ -87,42 +71,32 @@ function renderNavFromDisplay(widget) {
             return widget.selectedIndex === i;
         })
         .html(function(d) {
-            return widget.scope.templateEngine.render(d.content, widget);
-        });
-
-    enterLi.selectAll('a')
-        .on('click', function(d, i) {
-            let href = this.getAttribute('href');
-            if (viewPattern.test(href)) {
-                d3.event.preventDefault();
-                widget.selectedIndex = i;
-                widget.scope.navigateTo(href);
-                widget.render();
+            if (d.template) {
+                return widget.scope.templateEngine.render(d.template, widget);
+            } else {
+                let template = '<a href="' + d.href + '">' + d.label + '</a>';
+                return widget.scope.templateEngine.render(template, widget);
             }
         });
 
     li.exit().remove();
 }
 
-function getDisplayFromTemplate(widget) {
-    let result = {};
-    let ul = widget.view.querySelector('ul');
-    result.items = Array.from(
-        ul.querySelectorAll('li'))
-        .map(addDisplayItemFromTemplate);
-    return result;
+function initializeLinks(widget) {
+    Array.from(widget.querySelectorAll('a'))
+        .forEach(initLink, {widget: widget});
 }
 
-function addDisplayItemFromTemplate(item) {
-    let result = {};
-    if (item.classList.contains('dropdown')) {
-        result.type = 'dropdown';
-    } else {
-        result.type = 'link';
+function initLink(item, i) {
+    let widget = this.widget;
+    let href = item.getAttribute('href');
+    item.addEventListener(onLinkActivate);
+    function onLinkActivate(e) {
+        e.preventDefault();
+        widget.selectedIndex = i;
+        widget.scope.navigateTo(href);
+        widget.render();
     }
-
-    result.content = item.innerHTML;
-    return result;
 }
 
 module.exports = NavWidget;

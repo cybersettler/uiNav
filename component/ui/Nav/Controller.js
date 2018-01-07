@@ -25,7 +25,6 @@ function NavController(view, scope) {
         }
 
         scope.bindAttributes(bindingAttributes);
-
         controller.navWidget = new NavWidget(view, scope);
         controller.navWidget.render();
     });
