@@ -17,6 +17,13 @@ In your project's bower.json:
 }
 ```
 
+## Supported style classes
+
+* __navbar-left__: Defines navigation list alignment
+inside a navigation bar.
+* __navbar-right__: Defines navigation list alignment
+inside a navigation bar.
+
 ## API
 
 ### data-model

@@ -83,14 +83,14 @@ function renderNavFromDisplay(widget) {
 }
 
 function initializeLinks(widget) {
-    Array.from(widget.querySelectorAll('a'))
+    Array.from(widget.view.querySelectorAll('a'))
         .forEach(initLink, {widget: widget});
 }
 
 function initLink(item, i) {
     let widget = this.widget;
     let href = item.getAttribute('href');
-    item.addEventListener(onLinkActivate);
+    item.addEventListener('click', onLinkActivate);
     function onLinkActivate(e) {
         e.preventDefault();
         widget.selectedIndex = i;
