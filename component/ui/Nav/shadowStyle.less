@@ -3,42 +3,27 @@
 // --------------------------------------------------
 
 @import 'variables.less';
-@import "base.less";
+
+// Utilities
+@import "mixins/vendor-prefixes.less";
+
+// Skins
+@import "mixins/border-radius.less";
+
 @import "component-animations.less";
 @import "mixins/form-inline.less";
 @import "mixins/navs.less";
 
-content::content .navbar-nav {
+// Navbar
+
+:host-context(.navbar-body) content::content ul {
   margin: (@navbar-padding-vertical / 2) -@navbar-padding-horizontal;
 
-  > li > a {
+  > li > a,
+  > li > ui-dropdown {
     padding-top:    10px;
     padding-bottom: 10px;
     line-height: @line-height-computed;
-  }
-
-  @media (max-width: @grid-float-breakpoint-max) {
-    // Dropdowns get custom display when collapsed
-    .open .dropdown-menu {
-      position: static;
-      float: none;
-      width: auto;
-      margin-top: 0;
-      background-color: transparent;
-      border: 0;
-      box-shadow: none;
-      > li > a,
-      .dropdown-header {
-        padding: 5px 15px 5px 25px;
-      }
-      > li > a {
-        line-height: @line-height-computed;
-        &:hover,
-        &:focus {
-          background-image: none;
-        }
-      }
-    }
   }
 
   // Uncollapse the nav
@@ -47,7 +32,7 @@ content::content .navbar-nav {
 
     > li {
       float: left;
-      > a {
+      > a, > ui-dropdown {
         padding-top:    @navbar-padding-vertical;
         padding-bottom: @navbar-padding-vertical;
       }
@@ -56,31 +41,32 @@ content::content .navbar-nav {
 }
 
 // navbar default
+:host-context(.navbar-default) {
+  content::content ul {
+    > li > a {
+      color: @navbar-default-link-color;
 
-content::content .navbar-nav {
-  > li > a {
-    color: @navbar-default-link-color;
-
-    &:hover,
-    &:focus {
-      color: @navbar-default-link-hover-color;
-      background-color: @navbar-default-link-hover-bg;
+      &:hover,
+      &:focus {
+        color: @navbar-default-link-hover-color;
+        background-color: @navbar-default-link-hover-bg;
+      }
     }
-  }
-  > .active > a {
-    &,
-    &:hover,
-    &:focus {
-      color: @navbar-default-link-active-color;
-      background-color: @navbar-default-link-active-bg;
+    > .active > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @navbar-default-link-active-color;
+        background-color: @navbar-default-link-active-bg;
+      }
     }
-  }
-  > .disabled > a {
-    &,
-    &:hover,
-    &:focus {
-      color: @navbar-default-link-disabled-color;
-      background-color: @navbar-default-link-disabled-bg;
+    > .disabled > a {
+      &,
+      &:hover,
+      &:focus {
+        color: @navbar-default-link-disabled-color;
+        background-color: @navbar-default-link-disabled-bg;
+      }
     }
   }
 }
@@ -88,7 +74,7 @@ content::content .navbar-nav {
 // navabar inverse
 
 :host-context(.navbar-inverse) {
-  content::content .navbar-nav {
+  content::content ul {
     > li > a {
       color: @navbar-inverse-link-color;
 

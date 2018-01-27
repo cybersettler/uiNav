@@ -6,7 +6,7 @@
 // Base class
 // --------------------------------------------------
 
-content::content .nav {
+content::content ul {
   margin-bottom: 0;
   padding-left: 0; // Override default ul/ol
   list-style: none;
@@ -40,22 +40,14 @@ content::content .nav {
       }
     }
   }
+}
 
-  // Open dropdowns
-  .open > a {
-    &,
-    &:hover,
-    &:focus {
-      background-color: @nav-link-hover-bg;
-      border-color: @link-color;
-    }
-  }
-
-  // Prevent IE8 from misplacing imgs
-  //
-  // See https://github.com/h5bp/html5-boilerplate/issues/984#issuecomment-3985989
-  > li > a > img {
-    max-width: none;
+content::content ui-dropdown.open {
+  &,
+  &:hover,
+  &:focus {
+    background-color: @nav-link-hover-bg;
+    border-color: @link-color;
   }
 }
 
